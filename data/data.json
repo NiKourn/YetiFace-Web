@@ -1,30 +1,82 @@
 {
+	"meta": {
+		"title": "YetiFace Games - Indie Games",
+		"description": "Experience the thrilling world of YetiFace - an episodic psychological horror game series featuring untold stories. Play through multiple episodes of suspense and mystery."
+	},
 	"header": {
 		"title": "YetiFace Games",
-		"logo": "https://ugc.production.linktr.ee/12edf445-891c-4414-ab51-60ffcaf45fe9_YetiLogo.png?io=true&size=avatar-v3_0"
+		"logo": "assets/logo.webp",
+		"socialLinks": [
+			{
+				"name": "X (Twitter)",
+				"url": "https://x.com/YetifaceGames",
+				"icon": "fab fa-x-twitter",
+				"color": "#000000"
+			},
+			{
+				"name": "Discord",
+				"url": "https://discord.com/invite/NHwZ6dDPeY",
+				"icon": "fab fa-discord",
+				"color": "#5865F2"
+			},
+			{
+				"name": "Instagram",
+				"url": "https://www.instagram.com/yetifacegames",
+				"icon": "fab fa-instagram",
+				"color": "#E4405F"
+			},
+			{
+				"name": "TikTok",
+				"url": "https://www.tiktok.com/@yetifacegames",
+				"icon": "fab fa-tiktok",
+				"color": "#000000"
+			},
+			{
+				"name": "Steam",
+				"url": "",
+				"icon": "fab fa-steam",
+				"color": "#1b2838"
+			}
+		]
+	},
+	"footer": {
+		"companyName": "YetiFace Games LTD",
+		"year": "auto",
+		"additionalText": "All rights reserved.",
+		"links": [
+			{
+				"name": "Privacy Policy",
+				"url": "#privacy"
+			},
+			{
+				"name": "Terms of Service",
+				"url": "#terms"
+			}
+		]
 	},
 	"sections": [
 		{
-			"title": "Featured Games",
+			"title": "Games",
 			"items": [
 				{
-					"heading": "Episode One: Home Alone",
-					"text": "The first episode where things go wrong when you're home by yourself.",
-					"image": "https://placehold.co/400x250"
+					"heading": "Hollowbrook Appartments",
+					"text": "Hollowbrook is a stylized horror experience told through multiple episodes. Each chapter immerses you in the life of a new character, blending personal backstories with chilling encounters that react to your decisions.",
+					"image": "assets/games/hollowbrook_appartments.webp",
+					"steamUrl": "https://store.steampowered.com/app/3983920/Hollowbrook__Apartments/"
 				},
 				{
-					"heading": "Episode Two: Norwood Hitch",
-					"text": "A drive gone wrong leads to strange encounters in a motel.",
-					"image": "https://placehold.co/400x250"
+					"heading": "We're working on the next game!",
+					"image": "https://dummyimage.com/1000x620/000/fff&text=Coming+Soon",
+					"steamUrl": ""
 				}
 			]
 		},
 		{
-			"title": "About the Game",
+			"title": "About YetiFace",
 			"items": [
 				{
 					"heading": "What is YetiFace?",
-					"text": "A short episodic psychological horror game revealing untold stories.",
+					"text": "Indie dev based in Wales, UK. Creating short episodic psychological horror games revealing untold stories.",
 					"image": "https://placehold.co/400x250"
 				}
 			]

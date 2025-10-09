@@ -6,27 +6,84 @@ body {
 	padding: 0;
 }
 
-/* CONTAINER */
-.container {
-	max-width: 1024px;
-	margin: 0 auto;
-	padding: 0 1rem;
-}
-
-@media (max-width: 1024px) {
-	.container {
-		max-width: 100%;
-		padding: 0;
-	}
-}
-
 /* HEADER STYLES */
 header {
 	display: flex;
 	align-items: start;
 	justify-content: space-between;
 	text-align: justify;
-	padding: 1rem;
+	padding: 1rem 3rem;
+}
+
+/* HEADER RIGHT SECTION */
+.header-right {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	justify-content: space-between;
+	min-height: 123px;
+}
+
+/* SOCIAL LINKS */
+.social-links {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+}
+
+.social-link {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 25px;
+	height: 25px;
+	border-radius: 4px;
+	text-decoration: none;
+	font-size: 14px;
+	transition: all 0.3s ease;
+	border: 2px solid transparent;
+	position: relative;
+	color: #ffffff;
+}
+
+.social-link:hover {
+	border: 2px solid rgba(255, 255, 255, 0.6);
+}
+
+/* Brand-specific colors (always visible) */
+.social-link[title="X (Twitter)"] {
+	background-color: #000000;
+}
+
+.social-link[title="Discord"] {
+	background-color: #5865F2;
+}
+
+.social-link[title="Instagram"] {
+	background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+.social-link[title="TikTok"] {
+	background-color: #000000;
+	color: #ff0050;
+}
+
+.social-link[title="Steam"] {
+	background-color: #1b2838;
+	color: #66c0f4;
+}
+
+/* Responsive social links */
+@media (max-width: 768px) {
+	.social-links {
+		gap: 0.5rem;
+	}
+
+	.social-link {
+		width: 28px;
+		height: 28px;
+		font-size: 14px;
+	}
 }
 
 h1.site-title {
@@ -34,14 +91,13 @@ h1.site-title {
 	margin: 0;
 }
 
-/* header .logo-description-container {
+header .logo-description-container {
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	align-items: center;
-	gap: 1rem;
-} */
+}
 
-header,
+/* FOOTER STYLES */
 footer {
 	/* text-align: center; */
 	padding: 1rem;
@@ -58,8 +114,52 @@ h3 {
 }
 
 .site-logo {
-	height: 100px;
+	height: 75px;
 	margin: 0.5rem 0;
+	transition: opacity 0.3s ease;
+}
+
+/* CIRCULAR LOGO */
+.site-logo-circular {
+	border-radius: 50%;
+	object-fit: cover;
+	width: 75px;
+	height: 75px;
+	border: 3px solid;
+	transition: all 0.3s ease;
+}
+
+/* IMAGE LOADING STATES */
+img {
+	opacity: 0;
+	transition: opacity 0.3s ease;
+}
+
+img.loaded,
+img.lazy-loaded {
+	opacity: 1;
+}
+
+/* Hover effect for circular logo */
+.site-logo-circular:hover {
+	transform: scale(1.05);
+}
+
+/* ITEM IMAGES */
+.item-image {
+	border-radius: 8px 8px 0 0;
+	transition: all 0.3s ease;
+}
+
+.item-image:hover {
+	transform: scale(1.02);
+}
+
+/* CONTAINER */
+.container {
+	max-width: 1024px;
+	margin: 0 auto;
+	padding: 0 1rem;
 }
 
 .section {
@@ -73,7 +173,9 @@ h3 {
 
 .items {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+	/* grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); --Uncomment for 2 column layout, 1 for mobiles */
+	grid-template-columns: repeat(1, 1fr);
+	;
 	gap: 1.5rem;
 }
 
@@ -81,11 +183,12 @@ h3 {
 	border-radius: 8px;
 	overflow: hidden;
 	transition: transform 0.2s;
+	cursor: pointer;
 }
 
-.item:hover {
+/* .item:hover {
 	transform: scale(1.02);
-}
+} */
 
 .item img {
 	width: 100%;
@@ -103,4 +206,243 @@ h3 {
 
 .item-text {
 	line-height: 1.4;
+}
+
+/* STEAM BUTTON */
+.steam-button {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-top: 1rem;
+	padding: 0.75rem 1.5rem;
+	background: linear-gradient(135deg, #1b2838 0%, #2a475e 100%);
+	color: #ffffff;
+	text-decoration: none;
+	border-radius: 6px;
+	font-size: 0.9rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	transition: all 0.3s ease;
+	border: 2px solid transparent;
+	position: relative;
+	overflow: hidden;
+	cursor: pointer;
+}
+
+.steam-button::before {
+	content: '🎮';
+	font-size: 1rem;
+	filter: grayscale(1) brightness(2);
+}
+
+.steam-button:hover {
+	background: linear-gradient(135deg, #2a475e 0%, #1b2838 100%);
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(27, 40, 56, 0.4);
+	text-decoration: none;
+	color: #ffffff;
+}
+
+.steam-button:hover::before {
+	filter: none;
+	transform: scale(1.1);
+}
+
+.steam-button:active {
+	transform: translateY(0);
+}
+
+/* Steam button with Steam colors - alternative styling */
+.steam-button.steam-colored {
+	background: linear-gradient(135deg, #1e2329 0%, #171a21 100%);
+	border: 2px solid #66c0f4;
+	color: #66c0f4;
+}
+
+.steam-button.steam-colored:hover {
+	background: #66c0f4;
+	color: #1e2329;
+}
+
+/* THEME TOGGLE SWITCH */
+.theme-toggle {
+	position: relative;
+	width: 60px;
+	height: 30px;
+	background: transparent;
+	border: 2px solid;
+	border-radius: 30px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	padding: 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	overflow: hidden;
+}
+
+.theme-toggle::before {
+	content: '';
+	position: absolute;
+	width: 22px;
+	height: 22px;
+	border-radius: 50%;
+	transition: all 0.3s ease;
+	z-index: 2;
+}
+
+.theme-toggle .icon {
+	position: absolute;
+	font-size: 14px;
+	transition: all 0.3s ease;
+	z-index: 1;
+	width: 16px;
+	height: 16px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.theme-toggle .sun-icon {
+	left: 6px;
+}
+
+.theme-toggle .moon-icon {
+	right: 6px;
+}
+
+/* Sun icon using CSS */
+.sun-icon::before {
+	content: '☀';
+	font-size: 12px;
+}
+
+/* Moon icon using CSS */
+.moon-icon::before {
+	content: '🌙';
+	font-size: 12px;
+}
+
+/* LOADING STATE */
+.loading-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	min-height: 50vh;
+	padding: 2rem;
+	transition: all 0.3s ease;
+	gap: 1.5rem;
+}
+
+.loading-logo {
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	object-fit: cover;
+	border: 3px solid;
+	opacity: 0.9;
+}
+
+.loading {
+	text-align: center;
+	font-size: 1.5rem;
+	font-family: 'Bebas Neue', sans-serif;
+	font-weight: 400;
+	letter-spacing: 2px;
+	opacity: 0.8;
+}
+
+/* Simple pulsing animation instead of dots */
+.loading {
+	animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+	0%,
+	100% {
+		opacity: 0.4;
+	}
+
+	50% {
+		opacity: 0.8;
+	}
+}
+
+/* FOOTER */
+.site-footer {
+	text-align: center;
+	padding: 2rem 1rem;
+	margin-top: 2rem;
+}
+
+/* FOOTER CONTENT */
+.footer-content {
+	max-width: 1024px;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1rem;
+}
+
+.footer-copyright {
+	text-align: center;
+}
+
+.copyright-text {
+	margin: 0;
+	font-size: 0.9rem;
+	opacity: 0.8;
+}
+
+.footer-links {
+	text-align: center;
+}
+
+.footer-links-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	gap: 1.5rem;
+	justify-content: center;
+}
+
+.footer-link-item {
+	margin: 0;
+}
+
+.footer-link {
+	text-decoration: none;
+	font-size: 0.85rem;
+	transition: opacity 0.3s ease;
+	opacity: 0.7;
+}
+
+.footer-link:hover {
+	opacity: 1;
+	text-decoration: underline;
+}
+
+/* Responsive footer */
+@media (max-width: 768px) {
+	.footer-links-list {
+		flex-direction: column;
+		gap: 0.8rem;
+	}
+
+	.footer-content {
+		gap: 1.5rem;
+	}
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+	.container {
+		max-width: 100%;
+		padding: 0;
+	}
 }

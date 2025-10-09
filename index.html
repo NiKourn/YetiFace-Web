@@ -3,12 +3,18 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>YetiFace</title>
+		<!-- Title and description is set dynamically by JavaScript those are when loading for SEO purposes-->
+		<title>YetiFace Games - Indie Game Development</title>
+		<meta
+			name="description"
+			content="Discover innovative indie games and development insights from YetiFace Games studio." />
 
 		<!-- Common styles -->
 		<link rel="stylesheet" href="css/styles.css" />
 		<!-- Theme stylesheet (starts dark) -->
 		<link id="theme-style" rel="stylesheet" href="css/dark.css" />
+		<!-- Font Awesome for social icons -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
 		<link
 			rel="icon"
@@ -29,10 +35,10 @@
 			</main>
 		</div>
 
-		<footer class="site-footer">
-			<p>© 2025 My Site</p>
+		<footer id="footer" class="site-footer" style="display: none">
+			<!-- Footer content generated dynamically by footerRenderer.js -->
 		</footer>
 
-		<script src="js/index.js"></script>
+		<script type="module" src="js/index.js"></script>
 	</body>
 </html>
