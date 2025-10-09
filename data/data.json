@@ -10,32 +10,27 @@
 			{
 				"name": "X (Twitter)",
 				"url": "https://x.com/YetifaceGames",
-				"icon": "fab fa-x-twitter",
-				"color": "#000000"
+				"icon": "fab fa-x-twitter"
 			},
 			{
 				"name": "Discord",
 				"url": "https://discord.com/invite/NHwZ6dDPeY",
-				"icon": "fab fa-discord",
-				"color": "#5865F2"
+				"icon": "fab fa-discord"
 			},
 			{
 				"name": "Instagram",
 				"url": "https://www.instagram.com/yetifacegames",
-				"icon": "fab fa-instagram",
-				"color": "#E4405F"
+				"icon": "fab fa-instagram"
 			},
 			{
 				"name": "TikTok",
 				"url": "https://www.tiktok.com/@yetifacegames",
-				"icon": "fab fa-tiktok",
-				"color": "#000000"
+				"icon": "fab fa-tiktok"
 			},
 			{
 				"name": "Steam",
-				"url": "",
-				"icon": "fab fa-steam",
-				"color": "#1b2838"
+				"url": "https://store.steampowered.com/search/?developer=YetiFace%20Games",
+				"icon": "fab fa-steam"
 			}
 		]
 	},
