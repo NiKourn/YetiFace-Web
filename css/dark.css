@@ -32,3 +32,39 @@ footer {
 .item-text {
 	color: #ccc;
 }
+
+/* DARK THEME TOGGLE */
+.theme-toggle {
+	border-color: #444;
+	background: #1a1a1a;
+}
+
+.theme-toggle::before {
+	background: #fff;
+	left: 4px; /* Moon position - toggle is on left for dark theme */
+}
+
+.theme-toggle .sun-icon {
+	opacity: 0.3;
+}
+
+.theme-toggle .moon-icon {
+	opacity: 1;
+}
+
+/* FOOTER */
+.site-footer {
+	background-color: #111;
+	color: #fff;
+	border-top: 1px solid #222;
+}
+
+/* LOADING */
+.loading {
+	color: #ccc;
+}
+
+/* CIRCULAR LOGO */
+.site-logo-circular {
+	/* border-color: #444; */
+}

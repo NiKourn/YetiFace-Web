@@ -1,143 +1,169 @@
-// Fetch the JSON file and render content
-async function loadData() {
+/**
+ * Main Application Entry Point
+ * Orchestrates the loading and rendering of the entire application
+ */
+
+// Import all necessary modules
+import { loadData, displayError } from './modules/dataLoader.js'
+import { renderHeader } from './modules/headerRenderer.js'
+import { renderSections } from './modules/sectionRenderer.js'
+import { renderFooter, hideFooter } from './modules/footerRenderer.js'
+import { renderMetaData } from './modules/metaRenderer.js'
+import { preloadThemes, getStoredTheme } from './modules/themeManager.js'
+
+/**
+ * Redirects from index.html to root URL for cleaner URLs
+ * Essential for GitHub Pages SEO and clean URLs
+ */
+function cleanupURL() {
+	// Check if URL ends with /index.html
+	if (window.location.pathname.endsWith('/index.html')) {
+		// Get the current URL without index.html
+		const cleanURL = window.location.href.replace('/index.html', '/')
+
+		// Replace current history entry (no back button entry)
+		window.history.replaceState(null, '', cleanURL)
+	}
+}
+
+/**
+ * Main application initialization function
+ * Called when the DOM is fully loaded
+ */
+async function initializeApp() {
 	try {
-		const resp = await fetch('data/data.json')
-		if (!resp.ok) {
-			throw new Error('Network response was not OK')
+		// Clean up URL first (remove index.html if present)
+		cleanupURL()
+
+		// Apply saved theme IMMEDIATELY for proper loading state theming
+		applySavedTheme()
+
+		// Load application data first to get logo path
+		const data = await loadData()
+
+		// Show loading state with logo from data
+		showLoadingState(data?.header?.logo)
+
+		// Preload theme stylesheets for better UX
+		preloadThemes()
+
+		// 🐛 DEBUG: Add 3-second delay to see loading state
+		await new Promise((resolve) => setTimeout(resolve, 500))
+
+		// Validate data structure
+		if (!data || typeof data !== 'object') {
+			throw new Error('Invalid data structure received')
 		}
-		const data = await resp.json()
-		renderHeader(data.header)
-		renderSections(data.sections)
-	} catch (err) {
-		console.error('Failed to load data:', err)
-		const main = document.getElementById('main-content')
-		main.innerHTML = '<p>Failed to load content.</p>'
+
+		// Update page metadata (title, description, etc.)
+		if (data.meta) {
+			renderMetaData(data.meta)
+		}
+
+		// Render header section
+		if (data.header) {
+			renderHeader(data.header)
+		}
+
+		// Render content sections
+		if (data.sections) {
+			renderSections(data.sections)
+		}
+
+		// Render footer with data from JSON
+		if (data.footer) {
+			renderFooter(data.footer)
+		}
+
+		// Hide loading state and show content
+		hideLoadingState()
+	} catch (error) {
+		// Handle any initialization errors
+		console.error('❌ Failed to initialize application:', error)
+
+		// Display user-friendly error message
+		displayError('Sorry, something went wrong loading the page. Please try refreshing.')
+
+		// Hide loading state
+		hideLoadingState()
 	}
 }
 
-function renderHeader(header) {
-	const headerEl = document.getElementById('header')
-	headerEl.innerHTML = '' // clear
+/**
+ * Applies the saved theme immediately for proper loading state theming
+ */
+function applySavedTheme() {
+	const savedTheme = getStoredTheme()
 
-	let logo = null
-	let subtitleEl = null
-
-	const logoDescriptionContainer = document.createElement('div')
-	logoDescriptionContainer.className = 'logo-description-container'
-	headerEl.appendChild(logoDescriptionContainer)
-
-	// Add logo if it exists
-	if (header.logo) {
-		const logoContainer = document.createElement('div')
-		logoContainer.className = 'logo-container'
-		logoDescriptionContainer.appendChild(logoContainer)
-
-		logo = document.createElement('img')
-		logo.src = header.logo
-		logo.alt = 'Logo'
-		logo.className = 'site-logo'
-
-		logoContainer.appendChild(logo)
-	}
-
-	// Add title/Name
-	const titleEl = document.createElement('h1')
-	titleEl.className = 'site-title'
-	titleEl.textContent = header.title
-
-	// Add subtitle if it exists
-	if (header.subtitle) {
-		subtitleEl = document.createElement('p')
-		subtitleEl.textContent = header.subtitle
-	}
-
-	// Add theme toggle button
-	const toggleBtn = document.createElement('button')
-	toggleBtn.id = 'theme-toggle'
-	toggleBtn.style.marginTop = '0.5rem'
-	headerEl.appendChild(toggleBtn)
-
-	// Append title and subtitle to the container
-	logoDescriptionContainer.appendChild(titleEl)
-
-	if (header.subtitle) {
-		logoDescriptionContainer.appendChild(subtitleEl)
-	}
-	// Initialize theme toggle functionality
-	setupThemeToggle(toggleBtn)
-}
-
-function setupThemeToggle(toggleBtn) {
+	// Apply the theme stylesheet immediately
 	const themeLink = document.getElementById('theme-style')
-
-	// Localstorage default theme: dark
-	const savedTheme = localStorage.getItem('theme') || 'dark'
-	setTheme(savedTheme)
-
-	toggleBtn.addEventListener('click', () => {
-		const newTheme = themeLink.getAttribute('href').includes('dark') ? 'light' : 'dark'
-		setTheme(newTheme)
-	})
-
-	function setTheme(theme) {
-		themeLink.setAttribute('href', `css/${theme}.css`)
-		localStorage.setItem('theme', theme)
-		toggleBtn.textContent = theme === 'dark' ? 'Switch to Light' : 'Switch to Dark'
+	if (themeLink) {
+		themeLink.setAttribute('href', `css/${savedTheme}.css`)
 	}
+
+	// Set the theme data attribute on body for CSS targeting
+	document.body.setAttribute('data-theme', savedTheme)
 }
 
-function renderSections(sections) {
-	const main = document.getElementById('main-content')
-	main.innerHTML = '' // clear
+/**
+ * Shows a loading state while the app initializes
+ * Centers loading message and hides footer
+ */
+function showLoadingState(logoPath = 'assets/logo.webp') {
+	// Don't change title - keep the SEO-friendly default title in HTML
 
-	sections.forEach((section) => {
-		const sectionEl = document.createElement('section')
-		sectionEl.className = 'section'
+	// Log current theme for debugging
+	const currentTheme = document.body.getAttribute('data-theme') || 'dark'
 
-		const titleEl = document.createElement('h2')
-		titleEl.className = 'section-title'
-		titleEl.textContent = section.title
-		sectionEl.appendChild(titleEl)
+	const mainContent = document.getElementById('main-content')
+	if (mainContent) {
+		mainContent.innerHTML = `
+			<div class="loading-container">
+				<img src="${logoPath}" alt="YetiFace Games" class="loading-logo site-logo-circular" style="width:50px; height:50px;">
+				<div class="loading">LOADING</div>
+			</div>
+		`
+	}
 
-		const itemsContainer = document.createElement('div')
-		itemsContainer.className = 'items'
+	// Hide footer during loading
+	hideFooter() // Add loading class to body for additional CSS styling if needed
+	document.body.classList.add('loading')
+}
+/**
+ * Hides the loading state once initialization is complete
+ */
+function hideLoadingState() {
+	// Remove loading class from body
+	document.body.classList.remove('loading')
 
-		section.items.forEach((item) => {
-			const itemEl = document.createElement('div')
-			itemEl.className = 'item'
-
-			if (item.image) {
-				const img = document.createElement('img')
-				img.src = item.image
-				img.alt = item.heading || ''
-				itemEl.appendChild(img)
-			}
-
-			const contentEl = document.createElement('div')
-			contentEl.className = 'item-content'
-
-			if (item.heading) {
-				const h = document.createElement('h3')
-				h.className = 'item-heading'
-				h.textContent = item.heading
-				contentEl.appendChild(h)
-			}
-
-			if (item.text) {
-				const p = document.createElement('p')
-				p.className = 'item-text'
-				p.textContent = item.text
-				contentEl.appendChild(p)
-			}
-
-			itemEl.appendChild(contentEl)
-			itemsContainer.appendChild(itemEl)
-		})
-
-		sectionEl.appendChild(itemsContainer)
-		main.appendChild(sectionEl)
-	})
+	// Loading content will be replaced by actual content automatically
 }
 
-// Kick off
-window.addEventListener('DOMContentLoaded', loadData)
+/**
+ * Handle any unhandled errors that might occur
+ */
+window.addEventListener('error', (event) => {
+	console.error('💥 Unhandled error:', event.error)
+
+	// Could send error to logging service here
+	// trackError(event.error)
+})
+
+/**
+ * Handle unhandled promise rejections
+ */
+window.addEventListener('unhandledrejection', (event) => {
+	console.error('💥 Unhandled promise rejection:', event.reason)
+
+	// Prevent the error from appearing in console
+	event.preventDefault()
+
+	// Display user-friendly message
+	displayError('An unexpected error occurred. Please refresh the page.')
+})
+
+// Initialize the application when DOM is ready
+window.addEventListener('DOMContentLoaded', initializeApp)
+
+// Optional: Add a manual refresh function for debugging
+window.refreshApp = initializeApp
