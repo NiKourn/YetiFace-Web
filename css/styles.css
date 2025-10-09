@@ -1,0 +1,106 @@
+/* css/styles.css - Common styles */
+
+body {
+	font-family: 'Bebas Neue', sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+/* CONTAINER */
+.container {
+	max-width: 1024px;
+	margin: 0 auto;
+	padding: 0 1rem;
+}
+
+@media (max-width: 1024px) {
+	.container {
+		max-width: 100%;
+		padding: 0;
+	}
+}
+
+/* HEADER STYLES */
+header {
+	display: flex;
+	align-items: start;
+	justify-content: space-between;
+	text-align: justify;
+	padding: 1rem;
+}
+
+h1.site-title {
+	font-size: 1.3rem;
+	margin: 0;
+}
+
+/* header .logo-description-container {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 1rem;
+} */
+
+header,
+footer {
+	/* text-align: center; */
+	padding: 1rem;
+	display: flex;
+}
+
+h1,
+h2,
+h3 {
+	/* font-family: 'Open Sans', sans-serif; */
+	/* text-transform: uppercase; */
+	letter-spacing: 1px;
+	font-weight: 600;
+}
+
+.site-logo {
+	height: 100px;
+	margin: 0.5rem 0;
+}
+
+.section {
+	padding: 2rem 1rem;
+}
+
+.section-title {
+	padding-bottom: 0.5rem;
+	margin-bottom: 1rem;
+}
+
+.items {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+	gap: 1.5rem;
+}
+
+.item {
+	border-radius: 8px;
+	overflow: hidden;
+	transition: transform 0.2s;
+}
+
+.item:hover {
+	transform: scale(1.02);
+}
+
+.item img {
+	width: 100%;
+	height: auto;
+	display: block;
+}
+
+.item-content {
+	padding: 1rem;
+}
+
+.item-heading {
+	margin-bottom: 0.5rem;
+}
+
+.item-text {
+	line-height: 1.4;
+}

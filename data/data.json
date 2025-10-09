@@ -1,0 +1,33 @@
+{
+	"header": {
+		"title": "YetiFace Games",
+		"logo": "https://ugc.production.linktr.ee/12edf445-891c-4414-ab51-60ffcaf45fe9_YetiLogo.png?io=true&size=avatar-v3_0"
+	},
+	"sections": [
+		{
+			"title": "Featured Games",
+			"items": [
+				{
+					"heading": "Episode One: Home Alone",
+					"text": "The first episode where things go wrong when you're home by yourself.",
+					"image": "https://placehold.co/400x250"
+				},
+				{
+					"heading": "Episode Two: Norwood Hitch",
+					"text": "A drive gone wrong leads to strange encounters in a motel.",
+					"image": "https://placehold.co/400x250"
+				}
+			]
+		},
+		{
+			"title": "About the Game",
+			"items": [
+				{
+					"heading": "What is YetiFace?",
+					"text": "A short episodic psychological horror game revealing untold stories.",
+					"image": "https://placehold.co/400x250"
+				}
+			]
+		}
+	]
+}

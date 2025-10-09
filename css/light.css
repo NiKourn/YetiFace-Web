@@ -1,0 +1,35 @@
+/* css/light.css - Light theme overrides */
+
+body {
+	background-color: #fafafa;
+	color: #222;
+}
+
+header,
+footer {
+	background-color: #fdfdfdff;
+	color: #111;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.section {
+	border-bottom: 1px solid #ddd;
+}
+
+.section-title {
+	color: #111;
+	border-bottom: 2px solid #ccc;
+}
+
+.item {
+	background-color: #fff;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.item-heading {
+	color: #111;
+}
+
+.item-text {
+	color: #444;
+}
