@@ -9,7 +9,8 @@ import { renderHeader } from './modules/headerRenderer.js'
 import { renderSections } from './modules/sectionRenderer.js'
 import { renderFooter, hideFooter } from './modules/footerRenderer.js'
 import { renderMetaData } from './modules/metaRenderer.js'
-import { preloadThemes, getStoredTheme } from './modules/themeManager.js'
+import { getStoredTheme } from './modules/themeManager.js'
+import { renderModals } from './modules/modalRenderer.js'
 
 /**
  * Redirects from index.html to root URL for cleaner URLs
@@ -27,65 +28,160 @@ function cleanupURL() {
 }
 
 /**
+ * Waits for above-the-fold images (with src, not data-src) to finish loading.
+ * Always resolves, even if some images fail or take too long.
+ */
+async function waitForAboveFoldImages() {
+	// Wait a frame for layout to render
+	await new Promise((resolve) => requestAnimationFrame(resolve))
+
+	// Only wait for truly critical images: logo + first content image
+	const critical = []
+	const logo = document.querySelector('.site-logo[src]')
+	if (logo) critical.push(logo)
+	const firstItem = document.querySelector('.item-image[src]')
+	if (firstItem && firstItem !== logo) critical.push(firstItem)
+	if (critical.length === 0) return
+
+	const loadPromises = critical.map((img) => {
+		return new Promise((resolve) => {
+			if (img.complete && img.naturalWidth !== 0) {
+				// Already loaded successfully
+				return resolve()
+			}
+
+			const onDone = () => {
+				img.removeEventListener('load', onDone)
+				img.removeEventListener('error', onDone)
+				resolve()
+			}
+
+			img.addEventListener('load', onDone, { once: true })
+			img.addEventListener('error', onDone, { once: true })
+		})
+	})
+
+	await Promise.allSettled(loadPromises)
+}
+
+/**
+ * Show a minimal cookie notice once per browser (first visit)
+ * @param {{message:string, moreText?:string, moreLink?:string, buttonText?:string}} notice
+ */
+function maybeShowCookieNotice(notice) {
+	try {
+		const STORAGE_KEY = 'cookieNoticeAcknowledged'
+		if (localStorage.getItem(STORAGE_KEY) === '1') return
+
+		const bar = document.createElement('div')
+		bar.className = 'cookie-notice'
+		bar.setAttribute('role', 'region')
+		bar.setAttribute('aria-label', 'Cookie notice')
+
+		// Close (×) button
+		const x = document.createElement('button')
+		x.className = 'cookie-notice-close'
+		x.type = 'button'
+		x.setAttribute('aria-label', 'Close cookie notice')
+		x.textContent = '×'
+		x.addEventListener('click', () => {
+			localStorage.setItem(STORAGE_KEY, '1')
+			bar.classList.remove('show')
+			setTimeout(() => bar.remove(), 300)
+		})
+		bar.appendChild(x)
+
+		const msg = document.createElement('span')
+		msg.className = 'cookie-notice-message'
+		msg.textContent = notice.message || 'We do not use cookies for analytics or ads.'
+
+		bar.appendChild(msg)
+
+		if (notice.moreLink) {
+			const link = document.createElement('a')
+			link.href = notice.moreLink
+			link.className = 'cookie-notice-link'
+			link.textContent = notice.moreText || 'Learn more'
+			link.addEventListener('click', () => {
+				// Dismiss bar when navigating to details
+				localStorage.setItem(STORAGE_KEY, '1')
+				bar.classList.remove('show')
+				setTimeout(() => bar.remove(), 300)
+			})
+			bar.appendChild(link)
+		}
+
+		const btn = document.createElement('button')
+		btn.className = 'cookie-notice-button'
+		btn.type = 'button'
+		btn.textContent = notice.buttonText || 'Got it'
+		btn.addEventListener('click', () => {
+			localStorage.setItem(STORAGE_KEY, '1')
+			bar.classList.remove('show')
+			// remove after transition
+			setTimeout(() => bar.remove(), 300)
+		})
+		bar.appendChild(btn)
+
+		document.body.appendChild(bar)
+		// allow styles to apply then show
+		requestAnimationFrame(() => bar.classList.add('show'))
+	} catch (e) {
+		// If localStorage fails, skip notice silently
+		console.warn('Cookie notice skipped:', e)
+	}
+}
+
+// Track if app is already initialized
+let isInitialized = false
+
+/**
  * Main application initialization function
  * Called when the DOM is fully loaded
  */
 async function initializeApp() {
+	if (isInitialized) return
+	isInitialized = true
+
 	try {
-		// Clean up URL first (remove index.html if present)
+		// Clean up URL first
 		cleanupURL()
 
-		// Apply saved theme IMMEDIATELY for proper loading state theming
+		// Wait for fonts to load -- fixes issues showing default font first
+		await Promise.race([
+			document.fonts.load('400 16px "Bebas Neue"'),
+			new Promise((resolve) => setTimeout(resolve, 1000)),
+		])
+
+		// Apply saved theme
 		applySavedTheme()
 
-		// Load application data first to get logo path
+		// Load application data
 		const data = await loadData()
 
-		// Show loading state with logo from data
-		showLoadingState(data?.header?.logo)
+		// Render all content
+		if (data.meta) renderMetaData(data.meta)
+		if (data.header) renderHeader(data.header)
+		if (data.sections) renderSections(data.sections)
+		if (data.footer) renderFooter(data.footer)
+		if (data.modals) renderModals(data.modals)
 
-		// Preload theme stylesheets for better UX
-		preloadThemes()
-
-		// 🐛 DEBUG: Add 3-second delay to see loading state
-		await new Promise((resolve) => setTimeout(resolve, 500))
-
-		// Validate data structure
-		if (!data || typeof data !== 'object') {
-			throw new Error('Invalid data structure received')
+		// Cookie notice (first visit, minimal, no consent needed)
+		if (data.cookieNotice?.enabled) {
+			maybeShowCookieNotice(data.cookieNotice)
 		}
 
-		// Update page metadata (title, description, etc.)
-		if (data.meta) {
-			renderMetaData(data.meta)
-		}
+		// Wait only for truly critical images (no arbitrary timeouts)
+		await waitForAboveFoldImages()
 
-		// Render header section
-		if (data.header) {
-			renderHeader(data.header)
-		}
-
-		// Render content sections
-		if (data.sections) {
-			renderSections(data.sections)
-		}
-
-		// Render footer with data from JSON
-		if (data.footer) {
-			renderFooter(data.footer)
-		}
-
-		// Hide loading state and show content
-		hideLoadingState()
+		// Hide spinner, show app
+		document.getElementById('app-spinner').style.display = 'none'
+		document.getElementById('app-content').style.display = 'block'
 	} catch (error) {
-		// Handle any initialization errors
-		console.error('❌ Failed to initialize application:', error)
-
-		// Display user-friendly error message
-		displayError('Sorry, something went wrong loading the page. Please try refreshing.')
-
-		// Hide loading state
-		hideLoadingState()
+		console.error('❌ Failed to initialize:', error)
+		// Show page even on error
+		document.getElementById('app-spinner').style.display = 'none'
+		document.getElementById('app-content').style.display = 'block'
 	}
 }
 
@@ -103,40 +199,6 @@ function applySavedTheme() {
 
 	// Set the theme data attribute on body for CSS targeting
 	document.body.setAttribute('data-theme', savedTheme)
-}
-
-/**
- * Shows a loading state while the app initializes
- * Centers loading message and hides footer
- */
-function showLoadingState(logoPath = 'assets/logo.webp') {
-	// Don't change title - keep the SEO-friendly default title in HTML
-
-	// Log current theme for debugging
-	const currentTheme = document.body.getAttribute('data-theme') || 'dark'
-
-	const mainContent = document.getElementById('main-content')
-	if (mainContent) {
-		mainContent.innerHTML = `
-			<div class="loading-container">
-				<img src="${logoPath}" alt="YetiFace Games" class="loading-logo site-logo-circular" style="width:50px; height:50px;">
-				<div class="loading">LOADING</div>
-			</div>
-		`
-	}
-
-	// Hide footer during loading
-	hideFooter() // Add loading class to body for additional CSS styling if needed
-	document.body.classList.add('loading')
-}
-/**
- * Hides the loading state once initialization is complete
- */
-function hideLoadingState() {
-	// Remove loading class from body
-	document.body.classList.remove('loading')
-
-	// Loading content will be replaced by actual content automatically
 }
 
 /**

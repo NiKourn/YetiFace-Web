@@ -1,5 +1,6 @@
 /* css/dark.css - Dark theme overrides */
 
+/* ========== Base / Surfaces ========== */
 body {
 	background-color: #0f0f0f;
 	color: #eee;
@@ -11,15 +12,17 @@ footer {
 	color: #fff;
 }
 
+/* ========== Sections ========== */
 .section {
-	border-bottom: 1px solid #222;
+	/* border-bottom: 1px solid #222; */
 }
 
 .section-title {
 	color: #fff;
-	border-bottom: 2px solid #444;
+	border-bottom-color: #444;
 }
 
+/* ========== Items / Content ========== */
 .item {
 	background-color: #1a1a1a;
 	box-shadow: 0 0 10px #0005;
@@ -33,7 +36,7 @@ footer {
 	color: #ccc;
 }
 
-/* DARK THEME TOGGLE */
+/* ========== Theme Toggle ========== */
 .theme-toggle {
 	border-color: #444;
 	background: #1a1a1a;
@@ -52,19 +55,39 @@ footer {
 	opacity: 1;
 }
 
-/* FOOTER */
+/* ========== Footer ========== */
 .site-footer {
 	background-color: #111;
 	color: #fff;
-	border-top: 1px solid #222;
+	border-top-color: #222;
 }
 
-/* LOADING */
+/* ========== Loading ========== */
 .loading {
 	color: #ccc;
 }
 
-/* CIRCULAR LOGO */
+.loading-logo-placeholder {
+	border-color: #444;
+	background: linear-gradient(90deg, #1a1a1a 25%, #333 50%, #1a1a1a 75%);
+}
+
+/* ========== Logo ========== */
 .site-logo-circular {
 	/* border-color: #444; */
+}
+
+/* ========== Modals ========== */
+.modal-dialog {
+	background-color: #111;
+	color: #fff;
+	border-color: #222;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* ========== Cookie Notice ========== */
+.cookie-notice {
+	background-color: #111;
+	color: #fff;
+	border-top-color: #222;
 }

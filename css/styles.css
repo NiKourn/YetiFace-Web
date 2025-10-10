@@ -1,11 +1,48 @@
 /* css/styles.css - Common styles */
 
+/* ========== Base / Resets / Typography ========== */
+html {
+	scrollbar-gutter: stable; /* keeps layout stable when scrollbar appears */
+}
+
 body {
 	font-family: 'Bebas Neue', sans-serif;
 	margin: 0;
 	padding: 0;
+	font-display: swap;
 }
 
+p {
+	margin: 0;
+}
+
+h1,
+h2,
+h3 {
+	/* font-family: 'Open Sans', sans-serif; */
+	/* text-transform: uppercase; */
+	letter-spacing: 1px;
+	font-weight: 600;
+}
+
+/* ========== Layout / Containers ========== */
+.container {
+	max-width: 1024px;
+	margin: 0 auto;
+	padding: 0 1rem;
+}
+
+.section {
+	padding: 2rem 1rem;
+}
+
+.section-title {
+	padding-bottom: 0.5rem;
+	margin-bottom: 1rem;
+	border-bottom: 2px solid; /* color provided by theme */
+}
+
+/* ========== Header ========== */
 /* HEADER STYLES */
 header {
 	display: flex;
@@ -24,93 +61,15 @@ header {
 	min-height: 123px;
 }
 
-/* SOCIAL LINKS */
-.social-links {
-	display: flex;
-	gap: 1rem;
-	align-items: center;
-}
-
-.social-link {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 25px;
-	height: 25px;
-	border-radius: 4px;
-	text-decoration: none;
-	font-size: 14px;
-	transition: all 0.3s ease;
-	border: 2px solid transparent;
-	position: relative;
-	color: #ffffff;
-}
-
-.social-link:hover {
-	border: 2px solid rgba(255, 255, 255, 0.6);
-}
-
-/* Brand-specific colors (always visible) */
-.social-link[title="X (Twitter)"] {
-	background-color: #000000;
-}
-
-.social-link[title="Discord"] {
-	background-color: #5865F2;
-}
-
-.social-link[title="Instagram"] {
-	background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-}
-
-.social-link[title="TikTok"] {
-	background-color: #000000;
-	color: #ff0050;
-}
-
-.social-link[title="Steam"] {
-	background-color: #1b2838;
-	color: #66c0f4;
-}
-
-/* Responsive social links */
-@media (max-width: 768px) {
-	.social-links {
-		gap: 0.5rem;
-	}
-
-	.social-link {
-		width: 28px;
-		height: 28px;
-		font-size: 14px;
-	}
-}
-
-h1.site-title {
-	font-size: 1.3rem;
-	margin: 0;
-}
-
 header .logo-description-container {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
 
-/* FOOTER STYLES */
-footer {
-	/* text-align: center; */
-	padding: 1rem;
-	display: flex;
-}
-
-h1,
-h2,
-h3 {
-	/* font-family: 'Open Sans', sans-serif; */
-	/* text-transform: uppercase; */
-	letter-spacing: 1px;
-	font-weight: 600;
+h1.site-title {
+	font-size: 1.3rem;
+	margin: 0;
 }
 
 .site-logo {
@@ -129,140 +88,9 @@ h3 {
 	transition: all 0.3s ease;
 }
 
-/* IMAGE LOADING STATES */
-img {
-	opacity: 0;
-	transition: opacity 0.3s ease;
-}
-
-img.loaded,
-img.lazy-loaded {
-	opacity: 1;
-}
-
 /* Hover effect for circular logo */
 .site-logo-circular:hover {
 	transform: scale(1.05);
-}
-
-/* ITEM IMAGES */
-.item-image {
-	border-radius: 8px 8px 0 0;
-	transition: all 0.3s ease;
-}
-
-.item-image:hover {
-	transform: scale(1.02);
-}
-
-/* CONTAINER */
-.container {
-	max-width: 1024px;
-	margin: 0 auto;
-	padding: 0 1rem;
-}
-
-.section {
-	padding: 2rem 1rem;
-}
-
-.section-title {
-	padding-bottom: 0.5rem;
-	margin-bottom: 1rem;
-}
-
-.items {
-	display: grid;
-	/* grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); --Uncomment for 2 column layout, 1 for mobiles */
-	grid-template-columns: repeat(1, 1fr);
-	;
-	gap: 1.5rem;
-}
-
-.item {
-	border-radius: 8px;
-	overflow: hidden;
-	transition: transform 0.2s;
-	cursor: pointer;
-}
-
-/* .item:hover {
-	transform: scale(1.02);
-} */
-
-.item img {
-	width: 100%;
-	height: auto;
-	display: block;
-}
-
-.item-content {
-	padding: 1rem;
-}
-
-.item-heading {
-	margin-bottom: 0.5rem;
-}
-
-.item-text {
-	line-height: 1.4;
-}
-
-/* STEAM BUTTON */
-.steam-button {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.5rem;
-	margin-top: 1rem;
-	padding: 0.75rem 1.5rem;
-	background: linear-gradient(135deg, #1b2838 0%, #2a475e 100%);
-	color: #ffffff;
-	text-decoration: none;
-	border-radius: 6px;
-	font-size: 0.9rem;
-	font-weight: 600;
-	text-transform: uppercase;
-	letter-spacing: 0.5px;
-	transition: all 0.3s ease;
-	border: 2px solid transparent;
-	position: relative;
-	overflow: hidden;
-	cursor: pointer;
-}
-
-.steam-button::before {
-	content: '🎮';
-	font-size: 1rem;
-	filter: grayscale(1) brightness(2);
-}
-
-.steam-button:hover {
-	background: linear-gradient(135deg, #2a475e 0%, #1b2838 100%);
-	transform: translateY(-2px);
-	box-shadow: 0 4px 12px rgba(27, 40, 56, 0.4);
-	text-decoration: none;
-	color: #ffffff;
-}
-
-.steam-button:hover::before {
-	filter: none;
-	transform: scale(1.1);
-}
-
-.steam-button:active {
-	transform: translateY(0);
-}
-
-/* Steam button with Steam colors - alternative styling */
-.steam-button.steam-colored {
-	background: linear-gradient(135deg, #1e2329 0%, #171a21 100%);
-	border: 2px solid #66c0f4;
-	color: #66c0f4;
-}
-
-.steam-button.steam-colored:hover {
-	background: #66c0f4;
-	color: #1e2329;
 }
 
 /* THEME TOGGLE SWITCH */
@@ -324,51 +152,339 @@ img.lazy-loaded {
 	font-size: 12px;
 }
 
-/* LOADING STATE */
-.loading-container {
+/* SOCIAL LINKS */
+.social-links {
 	display: flex;
-	flex-direction: column;
-	justify-content: center;
+	gap: 1rem;
 	align-items: center;
-	min-height: 50vh;
-	padding: 2rem;
+}
+
+.social-link {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 25px;
+	height: 25px;
+	border-radius: 4px;
+	text-decoration: none;
+	font-size: 14px;
 	transition: all 0.3s ease;
+	border: 2px solid transparent;
+	position: relative;
+	color: #ffffff;
+}
+
+.social-link:hover {
+	border: 2px solid rgba(255, 255, 255, 0.6);
+}
+
+/* Brand-specific colors (always visible) */
+.social-link[title='X (Twitter)'] {
+	background-color: #000000;
+}
+
+.social-link[title='Discord'] {
+	background-color: #5865f2;
+}
+
+.social-link[title='Instagram'] {
+	background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+.social-link[title='TikTok'] {
+	background-color: #000000;
+	color: #ff0050;
+}
+
+.social-link[title='Steam'] {
+	background-color: #1b2838;
+	color: #66c0f4;
+}
+
+/* ========== App Loading Spinner ========== */
+.app-spinner {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #0f0f0f;
+	z-index: 9999;
+}
+
+.spinner {
+	width: 60px;
+	height: 60px;
+	border: 4px solid #333;
+	border-top: 4px solid #fff;
+	border-radius: 50%;
+	animation: spin 1s linear infinite;
+}
+
+/* ========== Images (generic) ========== */
+img {
+	opacity: 0;
+	transition: opacity 0.3s ease;
+}
+
+img.loaded {
+	opacity: 1;
+}
+
+/* ========== Content / Grid / Items ========== */
+.items {
+	display: grid;
+	/* grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); --Uncomment for 2 column layout, 1 for mobiles */
+	grid-template-columns: repeat(1, 1fr);
 	gap: 1.5rem;
 }
 
-.loading-logo {
-	width: 100px;
-	height: 100px;
-	border-radius: 50%;
-	object-fit: cover;
-	border: 3px solid;
-	opacity: 0.9;
+.item {
+	border-radius: 8px;
+	overflow: hidden;
+	transition: transform 0.2s;
+	cursor: pointer;
 }
 
-.loading {
-	text-align: center;
-	font-size: 1.5rem;
-	font-family: 'Bebas Neue', sans-serif;
-	font-weight: 400;
-	letter-spacing: 2px;
-	opacity: 0.8;
+/* .item:hover {
+	transform: scale(1.02);
+} */
+
+.item img {
+	width: 100%;
+	height: auto;
+	display: block;
 }
 
-/* Simple pulsing animation instead of dots */
-.loading {
-	animation: pulse 1.5s ease-in-out infinite;
+.item-content {
+	padding: 1rem;
 }
 
-@keyframes pulse {
+.item-heading {
+	margin-bottom: 0.5rem;
+}
 
-	0%,
-	100% {
-		opacity: 0.4;
-	}
+.item-text {
+	line-height: 1.4;
+}
 
-	50% {
-		opacity: 0.8;
-	}
+/* ITEM IMAGES */
+.item-image {
+	border-radius: 8px 8px 0 0;
+	transition: all 0.3s ease;
+}
+
+.item-image:hover {
+	transform: scale(1.02);
+}
+
+/* LAZY LOADING PLACEHOLDER */
+.item-image.lazy-loading {
+	background: linear-gradient(90deg, #333 25%, #444 50%, #333 75%);
+	background-size: 200% 100%;
+	animation: shimmer 1.5s infinite;
+	min-height: 200px;
+	width: 100%;
+	display: block;
+}
+
+/* ========== Buttons ========== */
+/* STEAM BUTTON */
+.steam-button {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-top: 1rem;
+	padding: 0.75rem 1.5rem;
+	background: linear-gradient(135deg, #1b2838 0%, #2a475e 100%);
+	color: #ffffff;
+	text-decoration: none;
+	border-radius: 6px;
+	font-size: 0.9rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	transition: all 0.3s ease;
+	border: 2px solid transparent;
+	position: relative;
+	overflow: hidden;
+	cursor: pointer;
+}
+
+.steam-button::before {
+	content: '🎮';
+	font-size: 1rem;
+	filter: grayscale(1) brightness(2);
+}
+
+.steam-button:hover {
+	background: linear-gradient(135deg, #2a475e 0%, #1b2838 100%);
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(27, 40, 56, 0.4);
+	text-decoration: none;
+	color: #ffffff;
+}
+
+.steam-button:hover::before {
+	filter: none;
+	transform: scale(1.1);
+}
+
+.steam-button:active {
+	transform: translateY(0);
+}
+
+/* Steam button with Steam colors - alternative styling */
+.steam-button.steam-colored {
+	background: linear-gradient(135deg, #1e2329 0%, #171a21 100%);
+	border: 2px solid #66c0f4;
+	color: #66c0f4;
+}
+
+.steam-button.steam-colored:hover {
+	background: #66c0f4;
+	color: #1e2329;
+}
+
+/* ========== Modals ========== */
+.modal-overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.6);
+	display: none;
+	align-items: center;
+	justify-content: center;
+	padding: 1rem;
+	z-index: 10000;
+}
+
+.modal-overlay.open {
+	display: flex;
+}
+
+.modal-dialog {
+	width: min(720px, 100%);
+	max-height: 80vh;
+	overflow: auto;
+	border-radius: 12px;
+	border: 2px solid;
+	padding: 1rem 1.25rem;
+	backdrop-filter: blur(4px);
+	position: relative;
+}
+
+.modal-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	margin-bottom: 0.5rem;
+	padding-right: 2.5rem; /* room for close button */
+}
+
+.modal-title {
+	margin: 0;
+	font-size: 1.25rem;
+}
+
+.modal-close {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	width: 36px;
+	height: 36px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: transparent;
+	border: none;
+	font-size: 1.5rem; /* the × size */
+	line-height: 1;
+	cursor: pointer;
+	border-radius: 8px;
+	opacity: 0.85;
+	transition: background 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+	z-index: 2;
+	color: inherit;
+	/* Ensure the × glyph is available (Bebas Neue may not include it) */
+	font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+	font-weight: 700;
+	border: 1px solid rgba(127, 127, 127, 0.25);
+}
+
+.modal-close:hover {
+	background: rgba(127, 127, 127, 0.12);
+	opacity: 1;
+	transform: scale(1.05);
+}
+
+.modal-close:focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
+}
+
+.modal-body p {
+	margin: 0.5rem 0;
+}
+
+/* ========== Cookie Notice ========== */
+.cookie-notice {
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: -120px;
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	padding: 0.75rem 1rem;
+	border-top: 1px solid;
+	transition: bottom 0.3s ease;
+	z-index: 9900; /* below modal overlay (10000) */
+	background-color: rgba(0, 0, 0, 0.8); /* default; overridden by themes */
+	color: #fff; /* default; overridden by themes */
+	box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.cookie-notice.show {
+	bottom: 0;
+}
+
+.cookie-notice-message {
+	flex: 1;
+	font-size: 0.9rem;
+}
+
+.cookie-notice-link {
+	text-decoration: underline;
+}
+
+.cookie-notice-button {
+	/* background: transparent; */
+	border: 2px solid currentColor;
+	padding: 0.4rem 0.8rem;
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+.cookie-notice-close {
+	margin-left: auto;
+	background: transparent;
+	color: white;
+	border: none;
+	font-size: 1.25rem;
+	line-height: 1;
+	cursor: pointer;
+}
+
+/* ========== Footer ========== */
+/* Element footer (generic layout) */
+footer {
+	/* text-align: center; */
+	padding: 1rem;
+	display: flex;
 }
 
 /* FOOTER */
@@ -376,6 +492,8 @@ img.lazy-loaded {
 	text-align: center;
 	padding: 2rem 1rem;
 	margin-top: 2rem;
+	border-top-width: 1px; /* color provided by theme */
+	border-top-style: solid;
 }
 
 /* FOOTER CONTENT */
@@ -392,12 +510,7 @@ img.lazy-loaded {
 	text-align: center;
 }
 
-.copyright-text {
-	margin: 0;
-	font-size: 0.9rem;
-	opacity: 0.8;
-}
-
+/* Footer links */
 .footer-links {
 	text-align: center;
 }
@@ -427,8 +540,85 @@ img.lazy-loaded {
 	text-decoration: underline;
 }
 
-/* Responsive footer */
+.copyright-text {
+	margin: 0;
+	font-size: 0.9rem;
+	opacity: 0.8;
+}
+
+/* ========== Animations ========== */
+@keyframes shimmer {
+	0% {
+		background-position: 200% 0;
+	}
+
+	100% {
+		background-position: -200% 0;
+	}
+}
+
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+/* ========== Responsive ========== */
 @media (max-width: 768px) {
+	header {
+		position: relative;
+		padding: 1rem 1rem;
+		flex-direction: column;
+		align-items: stretch;
+		gap: 0.75rem;
+	}
+
+	/* Theme toggle pinned top-right */
+	#theme-toggle.theme-toggle {
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		z-index: 5;
+	}
+
+	/* Center the logo/title block */
+	header .logo-description-container {
+		order: 1;
+		align-items: center;
+		text-align: center;
+	}
+
+	h1.site-title {
+		font-size: 1.2rem;
+	}
+
+	/* Header-right just becomes a flow container */
+	.header-right {
+		order: 2;
+		min-height: unset;
+		align-items: center;
+		justify-content: center;
+		gap: 0.75rem;
+	}
+
+	/* Center social icons and allow wrap */
+	.social-links {
+		justify-content: center;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	.social-link {
+		width: 28px;
+		height: 28px;
+		font-size: 14px;
+	}
+
+	/* Footer links */
 	.footer-links-list {
 		flex-direction: column;
 		gap: 0.8rem;
@@ -439,10 +629,19 @@ img.lazy-loaded {
 	}
 }
 
-/* RESPONSIVE */
 @media (max-width: 1024px) {
 	.container {
 		max-width: 100%;
 		padding: 0;
+	}
+}
+
+@media (max-width: 600px) {
+	.cookie-notice {
+		flex-direction: column;
+		align-items: stretch;
+	}
+	.cookie-notice-button {
+		width: 100%;
 	}
 }

@@ -141,10 +141,7 @@ function createLogoContainer(logoUrl) {
 	logoImage.src = logoUrl
 	logoImage.alt = 'Site Logo'
 	logoImage.className = 'site-logo site-logo-circular'
-	logoImage.loading = 'lazy' // Native lazy loading
-
-	// Add intersection observer for better lazy loading support
-	addLazyLoadingObserver(logoImage)
+	logoImage.loading = 'eager' // Ensure above-the-fold logo loads immediately
 
 	// Handle logo loading errors
 	logoImage.onerror = () => {

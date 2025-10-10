@@ -29,7 +29,7 @@
 			},
 			{
 				"name": "Steam",
-				"url": "https://store.steampowered.com/search/?developer=YetiFace%20Games",
+				"url": "",
 				"icon": "fab fa-steam"
 			}
 		]
@@ -46,16 +46,55 @@
 			{
 				"name": "Terms of Service",
 				"url": "#terms"
+			},
+			{
+				"name": "Cookie Policy",
+				"url": "#cookies"
 			}
 		]
 	},
+	"modals": [
+		{
+			"id": "privacy",
+			"title": "Privacy Policy",
+			"content": [
+				"We do not collect or sell personal data.",
+				"We do not use analytics or tracking cookies.",
+				"We store only your theme preference in your browser's localStorage so the site remembers your choice.",
+				"If fonts/icons are loaded from a CDN, those providers receive your IP address to deliver the files."
+			]
+		},
+		{
+			"id": "terms",
+			"title": "Terms of Service",
+			"content": [
+				"This site is provided \"as is\" without warranties of any kind.",
+				"Content may change without notice.",
+				"Links to third‑party sites are provided for convenience; we are not responsible for their content."
+			]
+		},
+		{
+			"id": "cookies",
+			"title": "Cookie Policy",
+			"content": [
+				"We do not use cookies for analytics, advertising, or tracking.",
+				"We store only your theme preference in localStorage (not a cookie) so the site remembers dark/light mode.",
+				"Third‑party CDNs used for fonts/icons may receive your IP address to deliver assets; this does not set cookies on our site.",
+				"If we ever introduce cookies that are not strictly necessary, we will update this notice and ask for your consent."
+			]
+		}
+	],
+
 	"sections": [
 		{
 			"title": "Games",
 			"items": [
 				{
 					"heading": "Hollowbrook Appartments",
-					"text": "Hollowbrook is a stylized horror experience told through multiple episodes. Each chapter immerses you in the life of a new character, blending personal backstories with chilling encounters that react to your decisions.",
+					"text": [
+						"Hollowbrook is a stylized horror experience told through multiple episodes.",
+						"Each chapter immerses you in the life of a new character, blending personal backstories with chilling encounters that react to your decisions."
+					],
 					"image": "assets/games/hollowbrook_appartments.webp",
 					"steamUrl": "https://store.steampowered.com/app/3983920/Hollowbrook__Apartments/"
 				},
@@ -71,10 +110,19 @@
 			"items": [
 				{
 					"heading": "What is YetiFace?",
-					"text": "Indie dev based in Wales, UK. Creating short episodic psychological horror games revealing untold stories.",
-					"image": "https://placehold.co/400x250"
+					"text": [
+						"Indie dev based in Wales, UK.",
+						"Creating short episodic psychological horror games revealing untold stories."
+					]
 				}
 			]
 		}
-	]
+	],
+	"cookieNotice": {
+		"enabled": true,
+		"message": "We do not use cookies for analytics or ads. We only store your theme preference (dark/light) in your browser.",
+		"moreText": "Learn more",
+		"moreLink": "#cookies",
+		"buttonText": "Got it"
+	}
 }

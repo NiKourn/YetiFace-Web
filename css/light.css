@@ -1,5 +1,6 @@
 /* css/light.css - Light theme overrides */
 
+/* ========== Base / Surfaces ========== */
 body {
 	background-color: #fafafa;
 	color: #222;
@@ -12,11 +13,13 @@ footer {
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
+/* ========== Sections ========== */
 .section-title {
 	color: #111;
-	border-bottom: 2px solid #ccc;
+	border-bottom-color: #ccc;
 }
 
+/* ========== Items / Content ========== */
 .item {
 	background-color: #fff;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
@@ -30,7 +33,7 @@ footer {
 	color: #444;
 }
 
-/* LIGHT THEME TOGGLE */
+/* ========== Theme Toggle ========== */
 .theme-toggle {
 	border-color: #ccc;
 	background: #f5f5f5;
@@ -49,19 +52,38 @@ footer {
 	opacity: 0.3;
 }
 
-/* FOOTER */
+/* ========== Footer ========== */
 .site-footer {
 	background-color: #fdfdfdff;
 	color: #111;
-	border-top: 1px solid #ddd;
+	border-top-color: #ddd;
 }
 
-/* LOADING */
+/* ========== Loading ========== */
 .loading {
 	color: #666;
 }
 
-/* CIRCULAR LOGO */
+/* ========== Logo ========== */
 .site-logo-circular {
 	border-color: #f0f0f0ff;
+}
+
+/* ========== Modals ========== */
+.modal-overlay {
+	background: rgba(255, 255, 255, 0.95);
+}
+
+.modal-dialog {
+	background-color: #ffffff;
+	color: #111;
+	border-color: #e3e3e3;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* ========== Cookie Notice ========== */
+.cookie-notice {
+	background-color: #fdfdfd;
+	color: #111;
+	border-top-color: #e3e3e3;
 }
