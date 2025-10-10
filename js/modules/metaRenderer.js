@@ -25,6 +25,11 @@ export function renderMetaData(meta) {
 		updateMetaDescription(meta.description)
 	}
 
+	//Loads later, not ideal solution
+	// if (meta.faviconUrl) {
+	// 	updateFavicon(meta.faviconUrl)
+	// }
+
 	// Update Open Graph tags for social sharing
 	updateOpenGraphTags(meta)
 }

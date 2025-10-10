@@ -3,6 +3,27 @@
  * Handles the creation and rendering of content sections and items
  */
 
+// Simple intersection observer for lazy loading
+const lazyLoadObserver = new IntersectionObserver(
+	(entries) => {
+		entries.forEach((entry) => {
+			if (entry.isIntersecting) {
+				const img = entry.target
+				console.log('🔄 Lazy loading image:', img.dataset.src)
+				img.src = img.dataset.src
+				delete img.dataset.src
+				img.classList.remove('lazy-loading')
+				img.classList.add('lazy-loaded')
+				lazyLoadObserver.unobserve(img)
+			}
+		})
+	},
+	{ rootMargin: '100px' } // Increased margin for earlier loading
+)
+
+// Global counter for above-fold items
+let globalItemIndex = 0
+
 /**
  * Renders all content sections in the main content area
  * @param {Array} sections - Array of section objects from JSON data
@@ -19,6 +40,9 @@ export function renderSections(sections) {
 
 	// Clear any existing content
 	mainContent.innerHTML = ''
+
+	// Reset global counter
+	globalItemIndex = 0
 
 	// Validate sections data
 	if (!Array.isArray(sections) || sections.length === 0) {
@@ -89,7 +113,10 @@ function createItemsContainer(items) {
 
 	// Create each item element
 	items.forEach((item, index) => {
-		const itemElement = createItemElement(item)
+		// First 2 items globally load immediately (above fold)
+		const isAboveFold = globalItemIndex < 2
+		globalItemIndex++
+		const itemElement = createItemElement(item, isAboveFold)
 		itemsContainer.appendChild(itemElement)
 	})
 
@@ -102,16 +129,17 @@ function createItemsContainer(items) {
  * @param {string} [item.image] - Optional image URL
  * @param {string} [item.heading] - Optional item heading
  * @param {string} [item.text] - Optional item text content
+ * @param {boolean} [isAboveFold=false] - Whether this item is above the fold
  * @returns {HTMLDivElement} The complete item element
  */
-function createItemElement(item) {
+function createItemElement(item, isAboveFold = false) {
 	// Create item container
 	const itemElement = document.createElement('div')
 	itemElement.className = 'item'
 
 	// Add image if provided
 	if (item.image) {
-		const imageElement = createItemImage(item.image, item.heading)
+		const imageElement = createItemImage(item.image, item.heading, isAboveFold)
 		itemElement.appendChild(imageElement)
 	}
 
@@ -131,15 +159,21 @@ function createItemElement(item) {
  * @param {string} [altText] - Alt text for the image
  * @returns {HTMLImageElement} The image element
  */
-function createItemImage(imageUrl, altText = '') {
+function createItemImage(imageUrl, altText = '', isAboveFold = false) {
 	const imageElement = document.createElement('img')
-	imageElement.src = imageUrl
 	imageElement.alt = altText || 'Item image'
 	imageElement.className = 'item-image'
-	imageElement.loading = 'lazy' // Native lazy loading
 
-	// Add intersection observer for better lazy loading support
-	addLazyLoadingObserver(imageElement)
+	if (isAboveFold) {
+		// Load immediately for above-fold images
+		imageElement.src = imageUrl
+	} else {
+		// Store URL for lazy loading and add loading class
+		imageElement.dataset.src = imageUrl
+		imageElement.classList.add('lazy-loading')
+		// Start observing for lazy loading
+		lazyLoadObserver.observe(imageElement)
+	}
 
 	// Handle image loading errors
 	imageElement.onerror = () => {
@@ -176,10 +210,19 @@ function createItemContent(item) {
 
 	// Add text content if provided
 	if (item.text) {
-		const textElement = document.createElement('p')
-		textElement.className = 'item-text'
-		textElement.textContent = item.text
-		contentElement.appendChild(textElement)
+		if (Array.isArray(item.text)) {
+			item.text.forEach((line) => {
+				const p = document.createElement('p')
+				p.className = 'item-text'
+				p.textContent = String(line)
+				contentElement.appendChild(p)
+			})
+		} else {
+			const textElement = document.createElement('p')
+			textElement.className = 'item-text'
+			appendMultilineText(textElement, item.text)
+			contentElement.appendChild(textElement)
+		}
 	}
 
 	// Add Steam link if provided
@@ -197,6 +240,19 @@ function createItemContent(item) {
 	}
 
 	return contentElement
+}
+
+/**
+ * Appends multi-line text into an element, converting \n to <br> safely (no innerHTML)
+ * @param {HTMLElement} el
+ * @param {string} text
+ */
+function appendMultilineText(el, text) {
+	const parts = String(text).split('\n')
+	parts.forEach((part, i) => {
+		if (i > 0) el.appendChild(document.createElement('br'))
+		el.appendChild(document.createTextNode(part))
+	})
 }
 
 /**
@@ -341,35 +397,4 @@ function addItemClickHandler(itemElement, item) {
 			itemElement.click()
 		}
 	})
-}
-
-/**
- * Adds lazy loading observer for better image loading performance
- * @param {HTMLImageElement} img - The image element to observe
- */
-function addLazyLoadingObserver(img) {
-	// Check if Intersection Observer is supported
-	if ('IntersectionObserver' in window) {
-		const imageObserver = new IntersectionObserver(
-			(entries, observer) => {
-				entries.forEach((entry) => {
-					if (entry.isIntersecting) {
-						const image = entry.target
-						// Image is already loaded via src, just add loaded class for animations
-						image.classList.add('lazy-loaded')
-						observer.unobserve(image)
-					}
-				})
-			},
-			{
-				// Start loading when image is 50px away from viewport
-				rootMargin: '50px',
-			}
-		)
-
-		imageObserver.observe(img)
-	} else {
-		// Fallback for older browsers
-		img.classList.add('lazy-loaded')
-	}
 }

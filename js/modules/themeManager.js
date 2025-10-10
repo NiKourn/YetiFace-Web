@@ -22,6 +22,17 @@ export function setupThemeToggle(toggleBtn) {
 	// Apply the saved theme on initialization
 	setTheme(savedTheme)
 
+	// Lazy preload alternate theme when user shows intent to switch
+	let isPreloaded = false
+	toggleBtn.addEventListener('mouseenter', () => {
+		if (!isPreloaded) {
+			const currentTheme = getCurrentTheme()
+			const alternateTheme = currentTheme === 'dark' ? 'light' : 'dark'
+			preloadAlternateTheme(alternateTheme)
+			isPreloaded = true
+		}
+	})
+
 	// Add click event listener to toggle between themes
 	toggleBtn.addEventListener('click', () => {
 		// Determine the new theme based on current theme
@@ -29,6 +40,7 @@ export function setupThemeToggle(toggleBtn) {
 		const newTheme = currentTheme === 'dark' ? 'light' : 'dark'
 
 		setTheme(newTheme)
+		isPreloaded = false // Reset for next switch
 	})
 
 	/**
@@ -50,25 +62,17 @@ export function setupThemeToggle(toggleBtn) {
 
 		// Add theme class to body for additional styling if needed
 		document.body.setAttribute('data-theme', theme)
-
-		// Clean up and preload the alternate theme for next switch
-		updateThemePreloading(theme)
 	}
 
 	/**
-	 * Updates preloading for theme switching performance
-	 * @param {string} currentTheme - The currently active theme
+	 * Preloads the alternate theme for faster switching
+	 * @param {string} alternateTheme - The theme to preload
 	 */
-	function updateThemePreloading(currentTheme) {
-		const alternateTheme = currentTheme === 'dark' ? 'light' : 'dark'
-
-		// Remove old preload links
-		const existingPreloads = document.querySelectorAll('link[rel="preload"][href*="css/"]')
-		existingPreloads.forEach((link) => {
-			if (link.href.includes('dark.css') || link.href.includes('light.css')) {
-				link.remove()
-			}
-		})
+	function preloadAlternateTheme(alternateTheme) {
+		// Check if already preloaded
+		if (document.getElementById(`preload-${alternateTheme}`)) {
+			return
+		}
 
 		// Preload the alternate theme for next switch
 		const preloadLink = document.createElement('link')
@@ -98,29 +102,4 @@ export function getCurrentTheme() {
  */
 export function getStoredTheme() {
 	return localStorage.getItem('theme') || 'dark'
-}
-
-/**
- * Preloads the alternate theme stylesheet to avoid flash when switching
- * Only preloads the theme that isn't currently active
- */
-export function preloadThemes() {
-	const currentTheme = getStoredTheme()
-	const alternateTheme = currentTheme === 'dark' ? 'light' : 'dark'
-
-	// Remove any existing preload links for themes
-	const existingPreloads = document.querySelectorAll('link[rel="preload"][href*="css/"]')
-	existingPreloads.forEach((link) => {
-		if (link.href.includes('dark.css') || link.href.includes('light.css')) {
-			link.remove()
-		}
-	})
-
-	// Only preload the alternate theme
-	const link = document.createElement('link')
-	link.rel = 'preload'
-	link.as = 'style'
-	link.href = `css/${alternateTheme}.css`
-	link.id = `preload-${alternateTheme}`
-	document.head.appendChild(link)
 }
