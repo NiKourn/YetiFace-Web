@@ -24,7 +24,7 @@ export function setupThemeToggle(toggleBtn) {
 
 	// Lazy preload alternate theme when user shows intent to switch
 	let isPreloaded = false
-	toggleBtn.addEventListener('mouseenter', () => {
+	toggleBtn.addEventListener('pointerdown', () => {
 		if (!isPreloaded) {
 			const currentTheme = getCurrentTheme()
 			const alternateTheme = currentTheme === 'dark' ? 'light' : 'dark'
@@ -74,9 +74,9 @@ export function setupThemeToggle(toggleBtn) {
 			return
 		}
 
-		// Preload the alternate theme for next switch
+		// Use low-priority prefetch instead of high-priority preload to avoid the unused-preload warning
 		const preloadLink = document.createElement('link')
-		preloadLink.rel = 'preload'
+		preloadLink.rel = 'prefetch'
 		preloadLink.as = 'style'
 		preloadLink.href = `css/${alternateTheme}.css`
 		preloadLink.id = `preload-${alternateTheme}`

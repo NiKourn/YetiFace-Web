@@ -49,7 +49,7 @@ header {
 	align-items: start;
 	justify-content: space-between;
 	text-align: justify;
-	padding: 1rem 3rem;
+	padding: 1rem 6rem;
 }
 
 /* HEADER RIGHT SECTION */
@@ -84,13 +84,13 @@ h1.site-title {
 	object-fit: cover;
 	width: 75px;
 	height: 75px;
-	border: 3px solid;
+	border: 2px solid;
 	transition: all 0.3s ease;
 }
 
 /* Hover effect for circular logo */
 .site-logo-circular:hover {
-	transform: scale(1.05);
+	/* transform: scale(1.05); */
 }
 
 /* THEME TOGGLE SWITCH */
@@ -568,6 +568,26 @@ footer {
 }
 
 /* ========== Responsive ========== */
+
+@media (max-width: 1500px) {
+	header {
+		padding: 1rem 3rem;
+	}
+}
+
+@media (max-width: 1110px) {
+	header {
+		padding: 1rem 1rem;
+	}
+}
+
+@media (max-width: 1024px) {
+	.container {
+		max-width: 100%;
+		padding: 0;
+	}
+}
+
 @media (max-width: 768px) {
 	header {
 		position: relative;
@@ -626,13 +646,6 @@ footer {
 
 	.footer-content {
 		gap: 1.5rem;
-	}
-}
-
-@media (max-width: 1024px) {
-	.container {
-		max-width: 100%;
-		padding: 0;
 	}
 }
 

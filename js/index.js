@@ -167,9 +167,9 @@ async function initializeApp() {
 		if (data.modals) renderModals(data.modals)
 
 		// Cookie notice (first visit, minimal, no consent needed)
-		if (data.cookieNotice?.enabled) {
-			maybeShowCookieNotice(data.cookieNotice)
-		}
+		// if (data.cookieNotice?.enabled) {
+		// 	maybeShowCookieNotice(data.cookieNotice)
+		// }
 
 		// Wait only for truly critical images (no arbitrary timeouts)
 		await waitForAboveFoldImages()
