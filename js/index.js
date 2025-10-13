@@ -147,10 +147,10 @@ async function initializeApp() {
 		// Clean up URL first
 		cleanupURL()
 
-		// Wait for fonts to load -- fixes issues showing default font first
+		// Wait briefly for local font to load -- reduces FOUT
 		await Promise.race([
-			document.fonts.load('400 16px "Bebas Neue"'),
-			new Promise((resolve) => setTimeout(resolve, 1000)),
+			document.fonts.load('400 16px "Bahnschrift"'),
+			new Promise((resolve) => setTimeout(resolve, 800)),
 		])
 
 		// Apply saved theme
@@ -167,9 +167,9 @@ async function initializeApp() {
 		if (data.modals) renderModals(data.modals)
 
 		// Cookie notice (first visit, minimal, no consent needed)
-		if (data.cookieNotice?.enabled) {
-			maybeShowCookieNotice(data.cookieNotice)
-		}
+		// if (data.cookieNotice?.enabled) {
+		// 	maybeShowCookieNotice(data.cookieNotice)
+		// }
 
 		// Wait only for truly critical images (no arbitrary timeouts)
 		await waitForAboveFoldImages()

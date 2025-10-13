@@ -1,4 +1,7 @@
 /**
+ * UNUSED FOR TITLE - DESCRIPTION FAVICON HANDLING -> IT'S MANAGED IN HTML
+ * USED FOR OPEN GRAPH TAGS
+ *
  * Meta Data Renderer Module
  * Handles updating page title and meta description from JSON data
  */
@@ -15,15 +18,15 @@ export function renderMetaData(meta) {
 		return
 	}
 
-	// Update page title
-	if (meta.title) {
-		document.title = meta.title
-	}
+	// // Update page title
+	// if (meta.title) {
+	// 	document.title = meta.title
+	// }
 
-	// Update meta description
-	if (meta.description) {
-		updateMetaDescription(meta.description)
-	}
+	// // Update meta description
+	// if (meta.description) {
+	// 	updateMetaDescription(meta.description)
+	// }
 
 	//Loads later, not ideal solution
 	// if (meta.faviconUrl) {

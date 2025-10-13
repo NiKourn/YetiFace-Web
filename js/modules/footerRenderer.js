@@ -56,7 +56,7 @@ function createCopyrightSection(footerData) {
 	const year = footerData?.year === 'auto' ? getCurrentYear() : footerData?.year || getCurrentYear()
 
 	// Build copyright text
-	const companyName = footerData?.companyName || 'YetiFace Games'
+	const companyName = footerData?.companyName || 'Yetiface Games'
 	const additionalText = footerData?.additionalText || ''
 
 	const copyrightText = `© ${year} ${companyName}${additionalText ? ` - ${additionalText}` : ''}`

@@ -65,9 +65,9 @@ footer {
 }
 
 /* ========== Logo ========== */
-.site-logo-circular {
-	border-color: #f0f0f0ff;
-}
+/* .site-logo-circular {
+	border-color: #ffffff;
+} */
 
 /* ========== Modals ========== */
 .modal-overlay {
@@ -86,4 +86,10 @@ footer {
 	background-color: #fdfdfd;
 	color: #111;
 	border-top-color: #e3e3e3;
+}
+
+/* ========== Social Links ========== */
+.social-link[title='Contact'] {
+	background-color: #1b2838;
+	color: #ffffffff;
 }
