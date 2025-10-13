@@ -4,23 +4,24 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-		<title>YetiFace Games - Indie Game Development</title>
+		<title>Yetiface Games - Indie Game Development</title>
 		<meta
 			name="description"
-			content="Experience the thrilling world of YetiFace - an episodic psychological horror game series featuring untold stories. Play through multiple episodes of suspense and mystery." />
+			content="Experience the thrilling world of Yetiface - an episodic psychological horror game series featuring untold stories. Play through multiple episodes of suspense and mystery." />
 
-		<!-- Load critical CSS first -->
+		<!-- Preload local font early so CSS can use it without a second fetch -->
+		<link rel="preload" href="assets/fonts/BAHNSCHRIFT.TTF" as="font" type="font/ttf" crossorigin="anonymous" />
+
+		<!-- Load critical CSS first and dark theme -->
 		<link rel="stylesheet" href="css/styles.css" />
 		<link id="theme-style" rel="stylesheet" href="css/dark.css" />
 
-		<!-- Load fonts -->
-		<link
-			href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600&display=block"
-			rel="stylesheet" />
-
+		<!-- Load Font Awesome for icons -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-		<link rel="icon" href="assets/logo.webp" />
+		<!-- Favicon and fallback -->
+		<link rel="icon" href="assets/favicon/favicon.webp" type="image/webp" />
+		<link rel="alternate icon" href="assets/favicon/favicon.png" type="image/png" />
 	</head>
 	<body>
 		<!-- Simple loading spinner -->

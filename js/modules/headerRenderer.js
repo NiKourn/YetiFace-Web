@@ -4,6 +4,7 @@
  */
 
 import { setupThemeToggle } from './themeManager.js'
+import { tryOpenSteamFromWebUrl } from './steamUtils.js'
 
 /**
  * Renders the site header with logo, title, subtitle, and theme toggle
@@ -102,10 +103,14 @@ function createSocialLinksContainer(socialLinks) {
 function createSocialLink(link) {
 	const socialLink = document.createElement('a')
 	socialLink.href = link.url
-	socialLink.target = '_blank'
-	socialLink.rel = 'noopener noreferrer'
+	// Open external links in new tab, keep hash/internal links in same tab
+	const isHashLink = typeof link.url === 'string' && link.url.startsWith('#')
+	if (!isHashLink) {
+		socialLink.target = '_blank'
+		socialLink.rel = 'noopener noreferrer'
+	}
 	socialLink.className = 'social-link'
-	socialLink.setAttribute('aria-label', `Follow YetiFace Games on ${link.name}`)
+	socialLink.setAttribute('aria-label', `Follow Yetiface Games on ${link.name}`)
 	socialLink.setAttribute('title', link.name)
 
 	// Create Font Awesome icon
@@ -113,8 +118,20 @@ function createSocialLink(link) {
 	icon.className = link.icon
 	socialLink.appendChild(icon)
 
+	// Special handling for Steam: try to open steam:// protocol and fall back to web
+	const isSteam = typeof link.name === 'string' && link.name.toLowerCase() === 'steam'
+	if (isSteam && typeof link.url === 'string') {
+		socialLink.addEventListener('click', (e) => {
+			e.preventDefault()
+			tryOpenSteamFromWebUrl(link.url)
+		})
+		socialLink.setAttribute('aria-label', 'Open on Steam')
+	}
+
 	return socialLink
 }
+
+// Steam open/fallback is handled by steamUtils to maximize reuse
 
 /**
  * Creates the container for logo, title, and subtitle

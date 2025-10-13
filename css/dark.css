@@ -73,9 +73,9 @@ footer {
 }
 
 /* ========== Logo ========== */
-.site-logo-circular {
-	border-color: #ce4561;
-}
+/* .site-logo-circular {
+	border-color: #2dc1e2;
+} */
 
 /* ========== Modals ========== */
 .modal-dialog {
@@ -90,4 +90,10 @@ footer {
 	background-color: #111;
 	color: #fff;
 	border-top-color: #222;
+}
+
+/* ========== Social Links ========== */
+.social-link[title='Contact'] {
+	background-color: #000000;
+	color: #ffffffff;
 }

@@ -67,14 +67,17 @@ export function renderSections(sections) {
 function createSectionElement(section) {
 	// Create section container
 	const sectionElement = document.createElement('section')
-	sectionElement.className = 'section'
-
 	// Add section title
 	const titleElement = createSectionTitle(section.title)
+	const slug = slugify(section.title || '')
+
+	sectionElement.className = 'section'
+	sectionElement.classList.add(slug + '-section') // Add slug as class for styling
 	sectionElement.appendChild(titleElement)
 
 	// Create items container
-	const itemsContainer = createItemsContainer(section.items)
+
+	const itemsContainer = createItemsContainer(section.items, slug)
 	sectionElement.appendChild(itemsContainer)
 
 	return sectionElement
@@ -97,7 +100,7 @@ function createSectionTitle(title) {
  * @param {Array} items - Array of item objects
  * @returns {HTMLDivElement} The items container element
  */
-function createItemsContainer(items) {
+function createItemsContainer(items, sectionSlug = '') {
 	// Create the grid container for items
 	const itemsContainer = document.createElement('div')
 	itemsContainer.className = 'items'
@@ -116,7 +119,7 @@ function createItemsContainer(items) {
 		// First 2 items globally load immediately (above fold)
 		const isAboveFold = globalItemIndex < 2
 		globalItemIndex++
-		const itemElement = createItemElement(item, isAboveFold)
+		const itemElement = createItemElement(item, isAboveFold, sectionSlug)
 		itemsContainer.appendChild(itemElement)
 	})
 
@@ -132,10 +135,16 @@ function createItemsContainer(items) {
  * @param {boolean} [isAboveFold=false] - Whether this item is above the fold
  * @returns {HTMLDivElement} The complete item element
  */
-function createItemElement(item, isAboveFold = false) {
+function createItemElement(item, isAboveFold = false, sectionSlug = '') {
 	// Create item container
 	const itemElement = document.createElement('div')
 	itemElement.className = 'item'
+	if (sectionSlug) {
+		// Add a slug-based class, e.g., about-yetiface
+		itemElement.classList.add(sectionSlug)
+		// Helpful data attribute for targeting/debugging
+		itemElement.setAttribute('data-section', sectionSlug)
+	}
 
 	// Add image if provided
 	if (item.image) {
@@ -255,6 +264,8 @@ function appendMultilineText(el, text) {
 	})
 }
 
+import { tryOpenSteamFromWebUrl } from './steamUtils.js'
+
 /**
  * Creates a simple Steam button with smart fallback
  * @param {string} steamUrl - The Steam page URL
@@ -273,105 +284,13 @@ function createSteamButton(steamUrl, gameName = '') {
 	// Smart click handler with quick fallback
 	steamButton.addEventListener('click', (event) => {
 		event.preventDefault() // Prevent default link behavior
-
-		// Extract app ID and try Steam protocol
-		const appIdMatch = steamUrl.match(/\/app\/(\d+)/)
-
-		if (appIdMatch && appIdMatch[1]) {
-			const appId = appIdMatch[1]
-			const steamAppUrl = `steam://store/${appId}`
-
-			// Check if Steam is available before trying
-			checkSteamAvailability(steamAppUrl, steamUrl, gameName)
-		} else {
-			// If can't extract app ID, open website directly
-			window.open(steamUrl, '_blank', 'noopener,noreferrer')
-		}
+		tryOpenSteamFromWebUrl(steamUrl)
 	})
 
 	return steamButton
 }
 
-/**
- * Checks if Steam is available and opens appropriate link
- * @param {string} steamAppUrl - The steam:// protocol URL
- * @param {string} steamUrl - The fallback website URL
- * @param {string} [gameName] - Optional game name for logging
- */
-function checkSteamAvailability(steamAppUrl, steamUrl, gameName = '') {
-	// 🧪 TEST MODE: Set to true to simulate no Steam installed
-	const TEST_NO_STEAM = false // Change to true for testing
-
-	if (TEST_NO_STEAM) {
-		setTimeout(() => {
-			window.open(steamUrl, '_blank', 'noopener,noreferrer')
-		}, 50)
-		return
-	}
-
-	// Create a hidden iframe to test Steam protocol
-	const testFrame = document.createElement('iframe')
-	testFrame.style.display = 'none'
-	testFrame.style.width = '1px'
-	testFrame.style.height = '1px'
-
-	// Set up before adding to DOM
-	let steamDetected = false
-	let timeoutId
-
-	// Function to clean up
-	const cleanup = () => {
-		clearTimeout(timeoutId)
-		try {
-			if (testFrame.parentNode) {
-				document.body.removeChild(testFrame)
-			}
-		} catch (e) {
-			// Frame already removed
-		}
-	}
-
-	// Listen for focus/blur events to detect Steam opening
-	const handleFocusChange = () => {
-		// If we lose focus quickly, Steam likely opened
-		steamDetected = true
-		cleanup()
-	}
-
-	// Listen for page visibility changes
-	const handleVisibilityChange = () => {
-		if (document.hidden && !steamDetected) {
-			steamDetected = true
-			cleanup()
-		}
-	}
-
-	// Set up detection
-	window.addEventListener('blur', handleFocusChange, { once: true })
-	document.addEventListener('visibilitychange', handleVisibilityChange)
-
-	// Fallback timeout - much shorter
-	timeoutId = setTimeout(() => {
-		if (!steamDetected) {
-			window.open(steamUrl, '_blank', 'noopener,noreferrer')
-		}
-
-		// Clean up listeners
-		window.removeEventListener('blur', handleFocusChange)
-		document.removeEventListener('visibilitychange', handleVisibilityChange)
-		cleanup()
-	}, 100) // Very short timeout - 100ms
-
-	// Add iframe and try Steam
-	document.body.appendChild(testFrame)
-
-	// Small delay to let event listeners set up
-	setTimeout(() => {
-		if (!steamDetected) {
-			testFrame.src = steamAppUrl
-		}
-	}, 10)
-}
+// Steam fallback logic moved to steamUtils.js for reuse
 
 /**
  * Adds click handler to item for future interactivity
@@ -397,4 +316,29 @@ function addItemClickHandler(itemElement, item) {
 			itemElement.click()
 		}
 	})
+}
+
+/**
+ * Convert a title to a CSS-friendly slug, e.g., "About Yetiface" -> "about-yetiface"
+ * - lowercases
+ * - removes diacritics
+ * - replaces any non-alphanumeric with single hyphen
+ * - trims hyphens
+ * @param {string} str
+ * @returns {string}
+ */
+function slugify(str) {
+	try {
+		return String(str)
+			.normalize('NFD')
+			.replace(/[\u0300-\u036f]/g, '')
+			.toLowerCase()
+			.replace(/[^a-z0-9]+/g, '-')
+			.replace(/^-+|-+$/g, '')
+	} catch {
+		return String(str || '')
+			.toLowerCase()
+			.replace(/[^a-z0-9]+/g, '-')
+			.replace(/^-+|-+$/g, '')
+	}
 }

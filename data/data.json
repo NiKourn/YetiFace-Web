@@ -1,11 +1,11 @@
 {
 	"meta": {
-		"title": "YetiFace Games - Indie Games",
-		"description": "Experience the thrilling world of YetiFace - an episodic psychological horror game series featuring untold stories. Play through multiple episodes of suspense and mystery."
+		"title": "Yetiface Games - Indie Games",
+		"description": "Experience the thrilling world of Yetiface - an episodic psychological horror game series featuring untold stories. Play through multiple episodes of suspense and mystery."
 	},
 	"header": {
-		"title": "YetiFace Games",
-		"logo": "assets/logo.webp",
+		"title": "Yetiface Games",
+		"logo": "assets/logo/logo.webp",
 		"socialLinks": [
 			{
 				"name": "X (Twitter)",
@@ -28,14 +28,19 @@
 				"icon": "fab fa-tiktok"
 			},
 			{
+				"name": "YouTube",
+				"url": "https://www.youtube.com/@YetifaceGames",
+				"icon": "fab fa-youtube"
+			},
+			{
 				"name": "Steam",
-				"url": "",
+				"url": "https://steamcommunity.com/groups/YetifaceGames",
 				"icon": "fab fa-steam"
 			}
 		]
 	},
 	"footer": {
-		"companyName": "YetiFace Games LTD",
+		"companyName": "Yetiface Games LTD",
 		"year": "auto",
 		"additionalText": "All rights reserved.",
 		"links": [
@@ -61,7 +66,7 @@
 				"We do not collect or sell personal data.",
 				"We do not use analytics or tracking cookies.",
 				"We store only your theme preference in your browser's localStorage so the site remembers your choice.",
-				"If fonts/icons are loaded from a CDN, those providers receive your IP address to deliver the files."
+				"If icons are loaded from a CDN, those providers receive your IP address to deliver the files."
 			]
 		},
 		{
@@ -79,7 +84,7 @@
 			"content": [
 				"We do not use cookies for analytics, advertising, or tracking.",
 				"We store only your theme preference in localStorage (not a cookie) so the site remembers dark/light mode.",
-				"Third‑party CDNs used for fonts/icons may receive your IP address to deliver assets; this does not set cookies on our site.",
+				"Third‑party CDNs used for icons may receive your IP address to deliver assets; this does not set cookies on our site.",
 				"If we ever introduce cookies that are not strictly necessary, we will update this notice and ask for your consent."
 			]
 		}
@@ -97,19 +102,14 @@
 					],
 					"image": "assets/games/hollowbrook_appartments.webp",
 					"steamUrl": "https://store.steampowered.com/app/3983920/Hollowbrook__Apartments/"
-				},
-				{
-					"heading": "We're working on the next game!",
-					"image": "https://dummyimage.com/1000x620/000/fff&text=Coming+Soon",
-					"steamUrl": ""
 				}
 			]
 		},
 		{
-			"title": "About YetiFace",
+			"title": "About Yetiface",
 			"items": [
 				{
-					"heading": "What is YetiFace?",
+					"heading": "What is Yetiface?",
 					"text": [
 						"Indie dev based in Wales, UK.",
 						"Creating short episodic psychological horror games revealing untold stories."
