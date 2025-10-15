@@ -60,7 +60,7 @@ header {
 	align-items: start;
 	justify-content: space-between;
 	text-align: justify;
-	padding: 1rem 6rem;
+	padding: 1rem 3rem;
 }
 
 /* HEADER RIGHT SECTION */
@@ -362,7 +362,6 @@ img.loaded {
 .modal-overlay {
 	position: fixed;
 	inset: 0;
-	background: rgba(0, 0, 0, 0.6);
 	display: none;
 	align-items: center;
 	justify-content: center;
