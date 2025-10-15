@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Page Not Found - YetiFace Games</title>
+		<meta name="description" content="The page you are looking for could not be found." />
+		<link rel="stylesheet" href="css/styles.css" />
+		<link id="theme-style" rel="stylesheet" href="css/dark.css" />
+		<link rel="preload" href="assets/fonts/BAHNSCHRIFT.TTF" as="font" type="font/ttf" crossorigin="anonymous" />
+		<link rel="icon" href="assets/favicon/favicon.webp" type="image/webp" />
+		<link rel="alternate icon" href="assets/favicon/favicon.png" type="image/png" />
+		<style>
+			.not-found-wrapper {
+				min-height: 100vh;
+				display: flex;
+				flex-direction: column;
+			}
+			.not-found-main {
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				gap: 1.5rem;
+				padding: 2rem 1rem;
+				text-align: center;
+			}
+			.not-found-code {
+				font-size: clamp(3rem, 15vw, 7rem);
+				font-weight: 700;
+				letter-spacing: 2px;
+				margin: 0;
+			}
+			.not-found-message {
+				font-size: 1.1rem;
+				max-width: 640px;
+				line-height: 1.5;
+				margin: 0;
+			}
+			.home-link {
+				display: inline-block;
+				margin-top: 0.75rem;
+				padding: 0.85rem 1.5rem;
+				border: 2px solid currentColor;
+				border-radius: 8px;
+				text-decoration: none;
+				font-weight: 600;
+				transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+			}
+			.home-link:hover {
+				transform: translateY(-2px);
+			}
+			.home-link:active {
+				transform: translateY(0);
+			}
+			.hint {
+				opacity: 0.65;
+				font-size: 0.85rem;
+			}
+			.logo-404 {
+				width: 110px;
+				height: 110px;
+				border-radius: 50%;
+				object-fit: cover;
+				box-shadow: 0 0 0 2px currentColor, 0 4px 20px -4px rgba(0, 0, 0, 0.5);
+			}
+			@media (max-width: 600px) {
+				.not-found-message {
+					font-size: 1rem;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="not-found-wrapper">
+			<main class="not-found-main">
+				<img src="assets/logo/logo.webp" alt="YetiFace Logo" class="logo-404" loading="lazy" />
+				<h1 class="not-found-code">404</h1>
+				<p class="not-found-message">
+					The page you were looking for doesn’t exist, was moved, or the URL contains a typo.
+				</p>
+				<a href="/" class="home-link" aria-label="Return to home">Return Home</a>
+				<p class="hint">(If you believe this is an error, head back to the homepage.)</p>
+			</main>
+			<footer class="site-footer" style="text-align: center; padding: 1rem 0; border-top: 1px solid; width: 100%">
+				<small style="width: 100%">&copy; <span id="y-year"></span> YetiFace Games LTD</small>
+			</footer>
+		</div>
+		<script>
+			// Apply stored theme if available
+			;(function () {
+				try {
+					var saved = localStorage.getItem('theme') || 'dark'
+					var link = document.getElementById('theme-style')
+					if (link) link.href = 'css/' + saved + '.css'
+					document.documentElement.setAttribute('data-theme', saved)
+				} catch (e) {}
+			})()
+			// Current year
+			document.getElementById('y-year').textContent = new Date().getFullYear()
+			// If hosted under a subpath (e.g., GitHub Pages user/ repo), adjust home link dynamically
+			;(function adjustHome() {
+				var home = document.querySelector('.home-link')
+				if (!home) return
+				// If running file:// or a local dev server root, leave '/'. Otherwise compute base from current path if 404 in nested path.
+				var path = window.location.pathname
+				if (path && path.includes('/')) {
+					// Attempt to detect repo root (heuristic for GitHub Pages project sites)
+					var parts = path.split('/').filter(Boolean)
+					if (parts.length > 1) {
+						// likely /<repo>/<whatever>
+						home.href = '/' + parts[0] + '/'
+					}
+				}
+			})()
+		</script>
+	</body>
+</html>
