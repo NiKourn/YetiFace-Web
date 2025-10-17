@@ -95,12 +95,12 @@
 			"title": "Games",
 			"items": [
 				{
-					"heading": "Hollowbrook Appartments",
+					"heading": "Hollowbrook Apartments",
 					"text": [
 						"Hollowbrook is a stylized horror experience told through multiple episodes.",
 						"Each chapter immerses you in the life of a new character, blending personal backstories with chilling encounters that react to your decisions."
 					],
-					"image": "assets/games/hollowbrook_appartments.webp",
+					"image": "assets/games/hollowbrook_apartments.webp",
 					"steamUrl": "https://store.steampowered.com/app/3983920/Hollowbrook__Apartments/"
 				}
 			]

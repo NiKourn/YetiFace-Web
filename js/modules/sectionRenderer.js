@@ -277,8 +277,18 @@ function createSteamButton(steamUrl, gameName = '') {
 	steamButton.href = steamUrl // Fallback for right-click
 	steamButton.target = '_blank'
 	steamButton.rel = 'noopener noreferrer'
-	steamButton.className = 'steam-button'
-	steamButton.textContent = 'Open in Steam'
+	// Use a dedicated FA icon element to avoid changing the button text font
+	steamButton.className = 'steam-button has-fa-icon'
+
+	const iconEl = document.createElement('i')
+	iconEl.className = 'fab fa-steam'
+	iconEl.setAttribute('aria-hidden', 'true')
+
+	const textEl = document.createElement('span')
+	textEl.textContent = 'Open in Steam'
+
+	steamButton.appendChild(iconEl)
+	steamButton.appendChild(textEl)
 	steamButton.setAttribute('aria-label', `View ${gameName || 'this game'} on Steam`)
 
 	// Smart click handler with quick fallback

@@ -4,8 +4,8 @@
 /* Local font: Bahnschrift */
 @font-face {
 	font-family: 'Bahnschrift';
-	src: local('Bahnschrift'), url('../assets/fonts/BAHNSCHRIFT.TTF') format('truetype');
-	font-weight: 100;
+	src: local('Bahnschrift'), url('../assets/fonts/BAHNSCHRIFT.woff') format('woff');
+	font-weight: 400;
 	font-style: normal;
 	font-display: swap;
 }
@@ -16,7 +16,7 @@ html {
 }
 
 body {
-	font-family: 'Bahnschrift', 'Bebas Neue', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+	font-family: 'Bahnschrift', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
 	margin: 0;
 	padding: 0;
 }
@@ -323,12 +323,6 @@ img.loaded {
 	cursor: pointer;
 }
 
-.steam-button::before {
-	content: '🎮';
-	font-size: 1rem;
-	filter: grayscale(1) brightness(2);
-}
-
 .steam-button:hover {
 	background: linear-gradient(135deg, #2a475e 0%, #1b2838 100%);
 	transform: translateY(-2px);
@@ -346,6 +340,18 @@ img.loaded {
 	transform: translateY(0);
 }
 
+/* When using an internal FA icon, suppress any legacy pseudo-icon */
+.steam-button.has-fa-icon::before {
+	content: none;
+}
+
+/* Fine-tune FA icon sizing/alignment next to text */
+.steam-button.has-fa-icon i {
+	font-size: 1.2rem;
+	line-height: 1;
+	display: inline-block;
+}
+
 /* Steam button with Steam colors - alternative styling */
 .steam-button.steam-colored {
 	background: linear-gradient(135deg, #1e2329 0%, #171a21 100%);
@@ -357,6 +363,8 @@ img.loaded {
 	background: #66c0f4;
 	color: #1e2329;
 }
+
+
 
 /* ========== Modals ========== */
 .modal-overlay {
