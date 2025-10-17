@@ -31,7 +31,7 @@ h3 {
 	/* font-family: 'Open Sans', sans-serif; */
 	/* text-transform: uppercase; */
 	letter-spacing: 1px;
-	font-weight: 600;
+	font-weight: 400;
 }
 
 /* ========== Layout / Containers ========== */
@@ -313,7 +313,7 @@ img.loaded {
 	text-decoration: none;
 	border-radius: 6px;
 	font-size: 0.9rem;
-	font-weight: 600;
+	font-weight: 100;
 	text-transform: uppercase;
 	letter-spacing: 0.5px;
 	transition: all 0.3s ease;
@@ -430,7 +430,7 @@ img.loaded {
 	color: inherit;
 	/* Ensure the × glyph is available (Bebas Neue may not include it) */
 	font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
-	font-weight: 700;
+	font-weight: 400;
 	border: 1px solid rgba(127, 127, 127, 0.25);
 }
 
@@ -554,11 +554,14 @@ footer {
 
 .footer-link-item {
 	margin: 0;
+}
+
+.footer-link-item a {
 	color: #36c1ef;
 }
 
 .footer-link-item a:visited {
-	color: inherit;
+	color: inherit !important;
 }
 
 .footer-link {
